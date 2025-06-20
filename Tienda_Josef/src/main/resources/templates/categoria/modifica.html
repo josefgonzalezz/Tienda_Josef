@@ -4,15 +4,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
     <head th:replace="~{layout/plantilla :: head}">
-        <title>TechShop</title>        
+        <title>TechShop</title>
+        <meta charset="UTF-8"/>
     </head>
     <body>
-
         <header th:replace="~{layout/plantilla :: header}"/>
 
-        <footer th:replace="~{layout/plantilla :: footer}"
-</html>/>          
+        <section th:replace="~{categoria/fragmentos :: editarCategoria}"/>
+
+        <footer th:replace="~{layout/plantilla :: footer}"/>
     </body>
+</html>
