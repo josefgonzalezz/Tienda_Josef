@@ -5,12 +5,6 @@
 
 package Tienda.Web.service.impl;
 
-/**
- *
- * @author josef
- */
-
-
 import Tienda.Web.dao.ProductoDao;
 import Tienda.Web.domain.Producto;
 import Tienda.Web.service.ProductoService;
@@ -22,17 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
-     @Autowired
+    @Autowired
     private ProductoDao productoDao;
 
     @Override
     @Transactional(readOnly = true)
     public List<Producto> getProductos(boolean activos) {
-        var lista = productoDao.findAll();
+        List<Producto> productos = productoDao.findAll();
         if (activos) {
-            lista.removeIf(e -> !e.isActivo());
+            productos.removeIf(p -> !p.isActivo());
         }
-        return lista;
+        return productos;
     }
 
     @Override
@@ -52,6 +46,22 @@ public class ProductoServiceImpl implements ProductoService {
     public void delete(Producto producto) {
         productoDao.delete(producto);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Producto> findByPrecioBetweenOrderByDescripcion(double precioInf, double precioSup) {
+        return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Producto> metodoJPQL(double precioInf, double precioSup) {
+        return productoDao.metodoJPQL(precioInf, precioSup);
+    }
     
+    @Override
+    @Transactional(readOnly = true)
+    public List<Producto> metodoNativo(double precioInf, double precioSup) {
+        return productoDao.metodoNativo(precioInf, precioSup);
+    }
 }
- 
