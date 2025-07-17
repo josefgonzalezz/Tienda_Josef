@@ -22,11 +22,15 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @Configuration
 public class ProjectConfig implements WebMvcConfigurer {
     /* Los siguientes métodos son para incorporar el tema de internacionalización en el proyecto */
-    
+
     /* localeResolver se utiliza para crear una sesión de cambio de idioma*/
     @Bean
     public LocaleResolver localeResolver() {
@@ -58,17 +62,20 @@ public class ProjectConfig implements WebMvcConfigurer {
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
-    
+
     /* Los siguiente métodos son para implementar el tema de seguridad dentro del proyecto */
+
+    // DESCOMENTADO: Para que Spring sepa dónde están tus vistas, incluida la de login.
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/registro/nuevo").setViewName("/registro/nuevo");
- }
+    }
 
-@Bean
+    // DESCOMENTADO: Este es el bean principal de seguridad que define las reglas y el formulario de login.
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((request) -> request
@@ -99,26 +106,37 @@ public class ProjectConfig implements WebMvcConfigurer {
         return http.build();
     }
 
-/* El siguiente método se utiliza para completar la clase no es 
-    realmente funcional, la próxima semana se reemplaza con usuarios de BD */    
-    @Bean
-    public UserDetailsService users() {
-        UserDetails admin = User.builder()
-                .username("juan")
-                .password("{noop}123")
-                .roles("USER", "VENDEDOR", "ADMIN")
-                .build();
-        UserDetails sales = User.builder()
-                .username("rebeca")
-                .password("{noop}456")
-                .roles("USER", "VENDEDOR")
-                .build();
-        UserDetails user = User.builder()
-                .username("pedro")
-                .password("{noop}789")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user, sales, admin);
+    /* El siguiente método se utiliza para completar la clase no es
+     * realmente funcional, la próxima semana se reemplaza con usuarios de BD
+     * Este bean DEBE PERMANECER COMENTADO si quieres usar la base de datos.
+     */
+    // @Bean
+    // public UserDetailsService users() {
+    //     UserDetails admin = User.builder()
+    //             .username("juan")
+    //             .password("{noop}123")
+    //             .roles("USER", "VENDEDOR", "ADMIN")
+    //             .build();
+    //     UserDetails sales = User.builder()
+    //             .username("rebeca")
+    //             .password("{noop}456")
+    //             .roles("USER", "VENDEDOR")
+    //             .build();
+    //     UserDetails user = User.builder()
+    //             .username("pedro")
+    //             .password("{noop}789")
+    //             .roles("USER")
+    //             .build();
+    //     return new InMemoryUserDetailsManager(user, sales, admin);
+    // }
+
+    // DESCOMENTADO: Inyección de tu UserDetailsService que se conecta a la BD.
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    // DESCOMENTADO: Configura el AuthenticationManager con tu UserDetailsService y el PasswordEncoder.
+    @Autowired
+    public void configurerGlobal (AuthenticationManagerBuilder build) throws Exception {
+        build.userDetailsService (userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 }
- 
