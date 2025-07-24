@@ -10,13 +10,13 @@ package Tienda.Web.dao;
 import Tienda.Web.domain.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsuarioDao extends JpaRepository<Usuario, Long> {
-    Usuario findByUsername(String username);
-    
-    Usuario findByUsernameAndPassword(String username, String Password);
+public interface UsuarioDao extends JpaRepository<Usuario, Long> { // Repositorio para la entidad Usuario que estaba en el domain 
 
-    Usuario findByUsernameOrCorreo(String username, String correo);
+    Usuario findByUsername(String username); // Busca por nombre de usuario
 
-    boolean existsByUsernameOrCorreo(String username, String correo);
+    Usuario findByUsernameAndPassword(String username, String password); // Busca por usuario y contraseña
+
+    Usuario findByUsernameOrCorreo(String username, String correo); // Busca por usuario o correo
+
+    boolean existsByUsernameOrCorreo(String username, String correo); // Verifica si existe usuario o correo
 }
- 
