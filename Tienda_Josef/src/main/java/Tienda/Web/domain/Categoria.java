@@ -2,7 +2,7 @@ package Tienda.Web.domain;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.List;  // <--- Importar List
+import java.util.List; 
 import lombok.Data;
 
 @Data
