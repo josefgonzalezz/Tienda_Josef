@@ -36,11 +36,9 @@
         </div>
     </section>
 
-    <!-- TODO lo demás con restricción para ADMIN o VENDEDOR -->
-    <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
-
-        <!-- Fragmento: Botón Agregar -->
-        <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
+    <!-- Fragmento: Botón Agregar -->
+    <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
+        <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
@@ -50,10 +48,12 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Fragmento: Modal Agregar Producto -->
-        <section th:fragment="agregarProducto">
+    <!-- Fragmento: Modal Agregar Producto -->
+    <section th:fragment="agregarProducto">
+        <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
             <div id="agregarProducto" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -102,17 +102,18 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Fragmento: Listado Productos -->
-        <section th:fragment="listadoProductos" id="productos">
+    <!-- Fragmento: Listado Productos -->
+    <section th:fragment="listadoProductos" id="productos">
+        <div sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
             <div class="container">
                 <div class="row mb-4">
                     <div class="col-12">
                         <h4>[[#{producto.listado}]]</h4>
                     </div>
                 </div>
-
                 <div th:if="${productos != null and !productos.empty}">
                     <table class="table table-striped table-hover">
                         <thead class="table-dark">
@@ -144,15 +145,16 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="text-center p-4" th:if="${productos == null or productos.empty}">
                     <span>[[#{lista.vacia}]]</span>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Fragmento: Editar Producto -->
-        <section th:fragment="editarProducto">
+    <!-- Fragmento: Editar Producto -->
+    <section th:fragment="editarProducto">
+        
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
@@ -201,10 +203,11 @@
                     </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Fragmento: Botones Editar -->
-        <section th:fragment="botonesEditar">
+    <!-- Fragmento: Botones Editar -->
+    <section th:fragment="botonesEditar">
             <div class="container py-4 mb-4 bg-white shadow-sm">
                 <div class="row g-3">
                     <div class="col-md-4 d-grid">
@@ -224,9 +227,8 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-    </div>
+        </div>
+    </section>
 
 </body>
 </html>

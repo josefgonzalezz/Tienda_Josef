@@ -61,7 +61,7 @@ public class CarritoController {
    public String modificarItem(Item item, Model model) {
        item = itemService.get(item);
        model.addAttribute("item", item);
-       return "/carrito/modificar";
+       return "/carrito/modifica";
    }
 
    //Para eliminar un elemento del carrito
@@ -69,16 +69,16 @@ public class CarritoController {
    public String eliminarItem(Item item) {
        itemService.delete(item);
        return "redirect:/carrito/listado";
-   }  // <-- esta llave faltaba para cerrar el método eliminarItem
+   }  
 
-   //Para actualizar un producto del carrito (cantidad)
+  
    @PostMapping("/carrito/guardar")
    public String guardarItem(Item item) {
        itemService.update(item);
        return "redirect:/carrito/listado";
    }
 
-   //Para facturar los productos del carrito... no implementado...
+  
    @GetMapping("/facturar/carrito")
    public String facturarCarrito() {
        itemService.facturar();
