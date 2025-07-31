@@ -60,7 +60,7 @@ public class UsuarioController {
                     usuario.getIdUsuario()));
         }
         usuarioService.save(usuario,true); 
-        return "redirect:/usuario/listado"
+        return "redirect:/usuario/listado";
     }
 
     @GetMapping("/eliminar/{idUsuario}")
